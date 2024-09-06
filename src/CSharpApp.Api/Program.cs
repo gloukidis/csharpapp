@@ -28,6 +28,8 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 
+#region Todos
+
 app.MapGet("/todos", async (ITodoService todoService) =>
     {
         var todos = await todoService.GetAll();
@@ -43,6 +45,10 @@ app.MapGet("/todos/{id}", async ([FromRoute] int id, ITodoService todoService) =
     })
     .WithName("GetTodosById")
     .WithOpenApi();
+
+#endregion
+
+#region Posts
 
 app.MapGet("/posts", async (IPostService postService) =>
 {
@@ -75,5 +81,7 @@ app.MapDelete("/posts/{id}", async ([FromRoute] int id, IPostService postService
 })
     .WithName("DeletePost")
     .WithOpenApi();
+
+#endregion
 
 app.Run();
