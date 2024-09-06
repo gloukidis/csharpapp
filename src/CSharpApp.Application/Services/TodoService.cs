@@ -1,33 +1,23 @@
+using CSharpApp.Infrastructure.Http;
+
 namespace CSharpApp.Application.Services;
 
 public class TodoService : ITodoService
 {
-    private readonly ILogger<TodoService> _logger;
-    private readonly HttpClient _client;
+    private readonly IHttpClientWrapper _httpClientWrapper;
 
-    private readonly string? _baseUrl;
-
-    public TodoService(ILogger<TodoService> logger, 
-        IConfiguration configuration)
+    public TodoService(IHttpClientWrapper httpClientWrapper)
     {
-        _logger = logger;
-        _client = new HttpClient();
-        _baseUrl = configuration["BaseUrl"];
+        _httpClientWrapper = httpClientWrapper;
     }
 
-    public async Task<TodoRecord?> GetTodoById(int id)
+    public async Task<List<TodoRecord>?> GetAll()
     {
-        _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.GetFromJsonAsync<TodoRecord>($"todos/{id}");
-
-        return response;
+        return await _httpClientWrapper.GetAsync<List<TodoRecord>>("todos");
     }
 
-    public async Task<ReadOnlyCollection<TodoRecord>> GetAllTodos()
+    public async Task<TodoRecord?> GetById(int id)
     {
-        _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.GetFromJsonAsync<List<TodoRecord>>($"todos");
-
-        return response!.AsReadOnly();
+        return await _httpClientWrapper.GetAsync<TodoRecord>($"todos/{id}");
     }
 }
