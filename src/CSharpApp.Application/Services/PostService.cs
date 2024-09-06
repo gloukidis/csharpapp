@@ -11,9 +11,9 @@ public class PostService : IPostService
         _httpClientWrapper = httpClientWrapper;
     }
 
-    public async Task<int?> Add(PostRecord newPost)
+    public async Task<PostRecord?> Add(PostRecord newPost)
     {
-        return await _httpClientWrapper.PostAsync<PostRecord, int>("post", newPost);
+        return await _httpClientWrapper.PostAsync<PostRecord, PostRecord>("post", newPost);
     }
 
     public async Task<bool> Delete(int id)

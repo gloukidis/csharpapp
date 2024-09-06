@@ -6,7 +6,7 @@ public interface IPostService
 
     Task<List<PostRecord>?> GetAll();
 
-    Task<int?> Add(PostRecord newPost);
+    Task<PostRecord?> Add(PostRecord newPost);
 
     Task<bool> Delete(int id);
 }

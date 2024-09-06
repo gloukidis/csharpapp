@@ -68,8 +68,8 @@ app.MapGet("/posts/{id}", async ([FromRoute] int id, IPostService postService) =
 
 app.MapPost("/posts", async (IPostService postService, PostRecord newPost) =>
 {
-    var createdPost = await postService.Add(newPost);
-    return Results.Created("/posts", createdPost);
+    var createdPostId = await postService.Add(newPost);
+    return Results.Created("/posts", createdPostId);
 })
     .WithName("AddPost")
     .WithOpenApi();
